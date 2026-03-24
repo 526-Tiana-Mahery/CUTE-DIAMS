@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html class="dark" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              // Cute & Professional Color Palette
+              primary: {
+                DEFAULT: "#FF9F9F",
+                light: "#FFB7B7",
+                dark: "#FF8A8A",
+              },
+              secondary: {
+                DEFAULT: "#C5E0D4",
+                light: "#D9EEE5",
+                dark: "#B2D4C6",
+              },
+              accent: {
+                DEFAULT: "#FFD966",
+                light: "#FFE599",
+                dark: "#FFD042",
+              },
+              cute: {
+                pink: "#FFB7B7",
+                mint: "#C5E0D4",
+                peach: "#FFD966",
+                lavender: "#E0C3E5",
+              },
+              // Dark mode colors
+              dark: {
+                bg: "#1A1A2E",
+                surface: "#16213E",
+                card: "#0F172A",
+                text: "#F1F5F9",
+                textMuted: "#94A3B8",
+                border: "#334155",
+              },
+              // Light mode colors
+              light: {
+                bg: "#FFF9F5",
+                surface: "#FFFFFF",
+                card: "#FEF7F0",
+                text: "#2D3748",
+                textMuted: "#718096",
+                border: "#FEE2E2",
+              },
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {
+              "DEFAULT": "1rem",
+              "lg": "1.5rem",
+              "xl": "2rem",
+              "full": "9999px",
+              "cute": "2rem",
+            },
+            animation: {
+              'float': 'float 3s ease-in-out infinite',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      
+      /* Hide scrollbar */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      
+      /* Mobile/Desktop responsive */
+      @media (min-width: 768px) {
+        .mobile-bottom-nav {
+          display: none !important;
+        }
+      }
+      
+      /* Desktop Navigation Bar */
+      .desktop-nav-bar {
+        display: none;
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 159, 159, 0.2);
+        padding: 0.5rem 2rem;
+        justify-content: center;
+        gap: 2rem;
+      }
+      
+      html.dark .desktop-nav-bar {
+        background: rgba(26, 26, 46, 0.95);
+        border-bottom: 1px solid rgba(255, 159, 159, 0.15);
+      }
+      
+      @media (min-width: 768px) {
+        .desktop-nav-bar {
+          display: flex;
+        }
+      }
+      
+      .desktop-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 2rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        color: #94A3B8;
+      }
+      
+      html.dark .desktop-nav-item {
+        color: #94A3B8;
+      }
+      
+      html:not(.dark) .desktop-nav-item {
+        color: #718096;
+      }
+      
+      .desktop-nav-item:hover {
+        background: rgba(255, 159, 159, 0.15);
+        transform: translateY(-2px);
+        color: #FF9F9F;
+      }
+      
+      .desktop-nav-item.active {
+        color: #FF9F9F;
+        background: rgba(255, 159, 159, 0.15);
+      }
+      
+      .desktop-nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 3px;
+        background: #FF9F9F;
+        border-radius: 3px;
+        box-shadow: 0 0 8px rgba(255, 159, 159, 0.6);
+      }
+      
+      .desktop-nav-icon {
+        font-size: 1.25rem;
+      }
+      
+      .desktop-nav-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      @media (min-width: 768px) {
+        main {
+          padding-top: 7rem !important;
+        }
+      }
+      
+      button {
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      button:active {
+        transform: scale(0.98);
+      }
+      
+      body {
+        min-height: max(884px, 100dvh);
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      /* Light Mode Styles */
+      html:not(.dark) body {
+        background-color: #FFF9F5;
+        color: #2D3748;
+      }
+      
+      html:not(.dark) .bg-surface-container-high {
+        background-color: #FEF7F0;
+        border-color: #FEE2E2;
+      }
+      
+      html:not(.dark) .bg-surface-bright {
+        background-color: #FFF5F0;
+      }
+      
+      html:not(.dark) .text-on-surface {
+        color: #2D3748;
+      }
+      
+      html:not(.dark) .border-white\/5 {
+        border-color: #FEE2E2;
+      }
+      
+      html:not(.dark) .bg-background {
+        background-color: #FFF9F5;
+      }
+      
+      html:not(.dark) .text-on-background {
+        color: #2D3748;
+      }
+      
+      html:not(.dark) .bg-\[\#0c0e17\] {
+        background-color: #FFFFFF;
+      }
+      
+      html:not(.dark) nav.bg-\[\#0c0e17\] {
+        background-color: #FFFFFF;
+        box-shadow: 0 0 20px rgba(255, 159, 159, 0.2);
+      }
+      
+      html:not(.dark) .mobile-bottom-nav {
+        background: rgba(255, 255, 255, 0.95);
+        border-color: #FEE2E2;
+      }
+      
+      html:not(.dark) .text-slate-400 {
+        color: #718096;
+      }
+      
+      /* Dark Mode Styles */
+      html.dark body {
+        background-color: #1A1A2E;
+        color: #F1F5F9;
+      }
+      
+      html.dark .bg-surface-container-high {
+        background-color: #0F172A;
+        border-color: #334155;
+      }
+      
+      html.dark .bg-surface-bright {
+        background-color: #16213E;
+      }
+      
+      html.dark .text-on-surface {
+        color: #F1F5F9;
+      }
+      
+      /* Cute card hover effects */
+      .cute-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .cute-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -12px rgba(255, 159, 159, 0.25);
+      }
+      
+      /* Floating animation for diamonds */
+      .float-animation {
+        animation: float 3s ease-in-out infinite;
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+      }
+      
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 159, 159, 0.1);
+        border-radius: 10px;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #FF9F9F;
+        border-radius: 10px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #FFB7B7;
+      }
+      
+      /* Container responsive */
+      @media (min-width: 768px) {
+        main {
+          max-width: 1200px;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+      
+      @media (min-width: 1024px) {
+        main {
+          max-width: 1400px;
+        }
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body theme-transition">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#0c0e17] shadow-[0_0_20px_rgba(255,159,159,0.15)] flex justify-between items-center px-4 sm:px-6 py-4 transition-all">
+<div class="flex items-center gap-2 sm:gap-4">
+<span class="text-xl sm:text-2xl font-black italic tracking-tighter text-primary uppercase font-headline whitespace-nowrap">CUTE DIAMS</span>
+</div>
+
+<!-- Desktop Navigation Menu -->
+<div class="hidden md:flex items-center gap-8">
+<div class="desktop-nav-item active" data-nav="recharge">
+<span class="material-symbols-outlined desktop-nav-icon">diamond</span>
+<span class="desktop-nav-label">Recharge</span>
+</div>
+<div class="desktop-nav-item" data-nav="history">
+<span class="material-symbols-outlined desktop-nav-icon">history</span>
+<span class="desktop-nav-label">History</span>
+</div>
+<div class="desktop-nav-item" data-nav="profile">
+<span class="material-symbols-outlined desktop-nav-icon">person</span>
+<span class="desktop-nav-label">Profile</span>
+</div>
+<div class="desktop-nav-item" data-nav="support">
+<span class="material-symbols-outlined desktop-nav-icon">help_outline</span>
+<span class="desktop-nav-label">Support</span>
+</div>
+</div>
+
+<div class="flex items-center gap-2 sm:gap-4">
+<button id="themeToggle" class="material-symbols-outlined text-primary hover:text-primary-light transition-colors" aria-label="Toggle theme">light_mode</button>
+<button class="material-symbols-outlined text-primary hover:text-primary-light transition-colors" aria-label="Shopping cart">shopping_cart</button>
+</div>
+</nav>
+
+<!-- Desktop Navigation Bar -->
+<div class="desktop-nav-bar">
+<div class="desktop-nav-item active" data-nav="recharge">
+<span class="material-symbols-outlined desktop-nav-icon">diamond</span>
+<span class="desktop-nav-label">Recharge</span>
+</div>
+<div class="desktop-nav-item" data-nav="history">
+<span class="material-symbols-outlined desktop-nav-icon">history</span>
+<span class="desktop-nav-label">History</span>
+</div>
+<div class="desktop-nav-item" data-nav="profile">
+<span class="material-symbols-outlined desktop-nav-icon">person</span>
+<span class="desktop-nav-label">Profile</span>
+</div>
+<div class="desktop-nav-item" data-nav="support">
+<span class="material-symbols-outlined desktop-nav-icon">help_outline</span>
+<span class="desktop-nav-label">Support</span>
+</div>
+</div>
+
+<main class="pt-20 sm:pt-24 pb-28 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-6 sm:mb-8 relative rounded-3xl overflow-hidden aspect-[16/9] sm:aspect-[16/7] group max-w-6xl mx-auto">
+<img alt="Free Fire Gaming Concept" class="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-transform duration-700" src="img/banniere.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-3 sm:bottom-4 left-4 sm:left-6">
+<h1 class="font-headline font-bold text-2xl sm:text-3xl tracking-tight text-white uppercase mb-1">Free Fire</h1>
+<div class="inline-flex items-center gap-2 bg-primary/30 border border-primary/50 px-2 sm:px-3 py-1 rounded-full backdrop-blur-sm">
+<span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[8px] sm:text-[10px] font-bold tracking-widest text-white uppercase whitespace-nowrap">RECHARGE OFFICIELLE</span>
+</div>
+</div>
+</section>
+
+<!-- Category Filters -->
+<section class="flex gap-2 sm:gap-3 mb-8 sm:mb-10 overflow-x-auto pb-2 scrollbar-hide justify-start sm:justify-center">
+<button class="bg-gradient-to-r from-primary to-primary-light text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-headline font-bold text-xs sm:text-sm whitespace-nowrap shadow-lg shadow-primary/30 flex-shrink-0">
+                Recharge
+            </button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-headline font-bold text-xs sm:text-sm whitespace-nowrap border border-primary/20 flex-shrink-0 hover:bg-primary/10 transition-colors">
+                Abonnement
+            </button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-headline font-bold text-xs sm:text-sm whitespace-nowrap border border-primary/20 flex-shrink-0 hover:bg-primary/10 transition-colors">
+                Level Up
+            </button>
+</section>
+
+<!-- Product Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-5">
+<!-- Diamond Card 1 -->
+<div class="cute-card bg-surface-container-high rounded-3xl p-4 sm:p-5 flex flex-col items-center relative group overflow-hidden border border-primary/20 hover:border-primary/50 transition-all duration-300">
+<div class="absolute -top-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-colors"></div>
+<div class="mb-3 sm:mb-4 mt-1 sm:mt-2 float-animation">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-primary" data-weight="fill">diamond</span>
+</div>
+<div class="text-center mb-3 sm:mb-4">
+<h3 class="font-headline font-black text-2xl sm:text-3xl text-primary tracking-tighter">110</h3>
+<p class="text-[8px] sm:text-[10px] font-bold text-secondary uppercase tracking-widest">+10 BONUS</p>
+</div>
+<div class="w-full pt-3 sm:pt-4 border-t border-primary/20 flex flex-col items-center gap-2 sm:gap-3">
+<span class="font-headline font-bold text-on-surface text-sm sm:text-base">4,800 Ar</span>
+<button class="w-full py-2 sm:py-2.5 bg-primary/10 hover:bg-primary border border-primary/30 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-primary hover:text-white transition-all active:scale-95">
+                        AJOUTER
+                    </button>
+</div>
+</div>
+
+<!-- Diamond Card 2 - Popular -->
+<div class="cute-card bg-surface-container-high rounded-3xl p-4 sm:p-5 flex flex-col items-center relative group overflow-hidden border border-primary/40 transition-all duration-300 ring-2 ring-primary/30">
+<div class="absolute top-2 sm:top-4 left-1/2 -translate-x-1/2 -translate-y-3 sm:-translate-y-6">
+<span class="bg-primary text-white text-[7px] sm:text-[8px] font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap shadow-lg">⭐ POPULAIRE ⭐</span>
+</div>
+<div class="mb-3 sm:mb-4 mt-1 sm:mt-2 float-animation">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-primary" data-weight="fill">diamond</span>
+</div>
+<div class="text-center mb-3 sm:mb-4">
+<h3 class="font-headline font-black text-2xl sm:text-3xl text-primary tracking-tighter">231</h3>
+<p class="text-[8px] sm:text-[10px] font-bold text-secondary uppercase tracking-widest">+21 BONUS</p>
+</div>
+<div class="w-full pt-3 sm:pt-4 border-t border-primary/20 flex flex-col items-center gap-2 sm:gap-3">
+<span class="font-headline font-bold text-on-surface text-sm sm:text-base">9,600 Ar</span>
+<button class="w-full py-2 sm:py-2.5 bg-gradient-to-r from-primary to-primary-light text-white rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary/30">
+                        AJOUTER
+                    </button>
+</div>
+</div>
+
+<!-- Diamond Card 3 -->
+<div class="cute-card bg-surface-container-high rounded-3xl p-4 sm:p-5 flex flex-col items-center relative group overflow-hidden border border-primary/20 hover:border-primary/50 transition-all duration-300">
+<div class="mb-3 sm:mb-4 mt-1 sm:mt-2 float-animation">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-primary" data-weight="fill">diamond</span>
+</div>
+<div class="text-center mb-3 sm:mb-4">
+<h3 class="font-headline font-black text-2xl sm:text-3xl text-primary tracking-tighter">341</h3>
+<p class="text-[8px] sm:text-[10px] font-bold text-secondary uppercase tracking-widest">+34 BONUS</p>
+</div>
+<div class="w-full pt-3 sm:pt-4 border-t border-primary/20 flex flex-col items-center gap-2 sm:gap-3">
+<span class="font-headline font-bold text-on-surface text-sm sm:text-base">13,500 Ar</span>
+<button class="w-full py-2 sm:py-2.5 bg-primary/10 hover:bg-primary border border-primary/30 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-primary hover:text-white transition-all active:scale-95">
+                        AJOUTER
+                    </button>
+</div>
+</div>
+
+<!-- Diamond Card 4 -->
+<div class="cute-card bg-surface-container-high rounded-3xl p-4 sm:p-5 flex flex-col items-center relative group overflow-hidden border border-primary/20 hover:border-primary/50 transition-all duration-300">
+<div class="mb-3 sm:mb-4 mt-1 sm:mt-2 float-animation">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-primary" data-weight="fill">diamond</span>
+</div>
+<div class="text-center mb-3 sm:mb-4">
+<h3 class="font-headline font-black text-2xl sm:text-3xl text-primary tracking-tighter">572</h3>
+<p class="text-[8px] sm:text-[10px] font-bold text-secondary uppercase tracking-widest">+58 BONUS</p>
+</div>
+<div class="w-full pt-3 sm:pt-4 border-t border-primary/20 flex flex-col items-center gap-2 sm:gap-3">
+<span class="font-headline font-bold text-on-surface text-sm sm:text-base">22,500 Ar</span>
+<button class="w-full py-2 sm:py-2.5 bg-primary/10 hover:bg-primary border border-primary/30 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-primary hover:text-white transition-all active:scale-95">
+                        AJOUTER
+                    </button>
+</div>
+</div>
+
+<!-- Diamond Card 5 -->
+<div class="cute-card bg-surface-container-high rounded-3xl p-4 sm:p-5 flex flex-col items-center relative group overflow-hidden border border-primary/20 hover:border-primary/50 transition-all duration-300">
+<div class="mb-3 sm:mb-4 mt-1 sm:mt-2 float-animation">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-primary" data-weight="fill">diamond</span>
+</div>
+<div class="text-center mb-3 sm:mb-4">
+<h3 class="font-headline font-black text-2xl sm:text-3xl text-primary tracking-tighter">1188</h3>
+<p class="text-[8px] sm:text-[10px] font-bold text-secondary uppercase tracking-widest">+120 BONUS</p>
+</div>
+<div class="w-full pt-3 sm:pt-4 border-t border-primary/20 flex flex-col items-center gap-2 sm:gap-3">
+<span class="font-headline font-bold text-on-surface text-sm sm:text-base">45,000 Ar</span>
+<button class="w-full py-2 sm:py-2.5 bg-primary/10 hover:bg-primary border border-primary/30 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-primary hover:text-white transition-all active:scale-95">
+                        AJOUTER
+                    </button>
+</div>
+</div>
+
+<!-- Diamond Card 6 -->
+<div class="cute-card bg-surface-container-high rounded-3xl p-4 sm:p-5 flex flex-col items-center relative group overflow-hidden border border-primary/20 hover:border-primary/50 transition-all duration-300">
+<div class="mb-3 sm:mb-4 mt-1 sm:mt-2 float-animation">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-primary" data-weight="fill">diamond</span>
+</div>
+<div class="text-center mb-3 sm:mb-4">
+<h3 class="font-headline font-black text-2xl sm:text-3xl text-primary tracking-tighter">2420</h3>
+<p class="text-[8px] sm:text-[10px] font-bold text-secondary uppercase tracking-widest">+242 BONUS</p>
+</div>
+<div class="w-full pt-3 sm:pt-4 border-t border-primary/20 flex flex-col items-center gap-2 sm:gap-3">
+<span class="font-headline font-bold text-on-surface text-sm sm:text-base">89,000 Ar</span>
+<button class="w-full py-2 sm:py-2.5 bg-primary/10 hover:bg-primary border border-primary/30 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-primary hover:text-white transition-all active:scale-95">
+                        AJOUTER
+                    </button>
+</div>
+</div>
+</section>
+
+<!-- Trust Indicator -->
+<div class="mt-12 sm:mt-14 flex items-center justify-center gap-6 sm:gap-8 opacity-60">
+<span class="material-symbols-outlined text-2xl sm:text-3xl text-primary">verified_user</span>
+<span class="material-symbols-outlined text-2xl sm:text-3xl text-primary">lock</span>
+<span class="material-symbols-outlined text-2xl sm:text-3xl text-primary">payments</span>
+</div>
+</main>
+
+<!-- Mobile Bottom Navigation Bar -->
+<nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl bg-white/95 backdrop-blur-xl border-t border-primary/20 shadow-[0_-8px_30px_rgba(255,159,159,0.15)] flex justify-around items-center px-2 sm:px-4 pb-4 sm:pb-6 pt-2 sm:pt-3 md:hidden">
+<a class="bottom-nav-item flex flex-col items-center justify-center bg-primary/10 text-primary rounded-2xl px-2 sm:px-4 py-1 border border-primary/30 active:scale-95 duration-100 transition-all" href="#" data-mobile-nav="recharge">
+<span class="material-symbols-outlined text-xl sm:text-2xl">diamond</span>
+<span class="font-manrope text-[8px] sm:text-[10px] font-semibold tracking-wide uppercase mt-0.5 sm:mt-1">Recharge</span>
+</a>
+<a class="bottom-nav-item flex flex-col items-center justify-center text-slate-400 hover:text-primary transition-colors hover:bg-primary/10 active:scale-95 duration-100 rounded-xl px-2 sm:px-3 py-1" href="#" data-mobile-nav="history">
+<span class="material-symbols-outlined text-xl sm:text-2xl">history</span>
+<span class="font-manrope text-[8px] sm:text-[10px] font-semibold tracking-wide uppercase mt-0.5 sm:mt-1">History</span>
+</a>
+<a class="bottom-nav-item flex flex-col items-center justify-center text-slate-400 hover:text-primary transition-colors hover:bg-primary/10 active:scale-95 duration-100 rounded-xl px-2 sm:px-3 py-1" href="#" data-mobile-nav="profile">
+<span class="material-symbols-outlined text-xl sm:text-2xl">person</span>
+<span class="font-manrope text-[8px] sm:text-[10px] font-semibold tracking-wide uppercase mt-0.5 sm:mt-1">Profile</span>
+</a>
+<a class="bottom-nav-item flex flex-col items-center justify-center text-slate-400 hover:text-primary transition-colors hover:bg-primary/10 active:scale-95 duration-100 rounded-xl px-2 sm:px-3 py-1" href="#" data-mobile-nav="support">
+<span class="material-symbols-outlined text-xl sm:text-2xl">help_outline</span>
+<span class="font-manrope text-[8px] sm:text-[10px] font-semibold tracking-wide uppercase mt-0.5 sm:mt-1">Support</span>
+</a>
+</nav>
+
+<script>
+// Theme toggle functionality
+const themeToggle = document.getElementById('themeToggle');
+const htmlElement = document.documentElement;
+
+// Check for saved theme preference
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    htmlElement.className = savedTheme;
+    updateThemeIcon(savedTheme);
+} else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    htmlElement.className = '';
+    updateThemeIcon('light');
+} else {
+    htmlElement.className = 'dark';
+    updateThemeIcon('dark');
+}
+
+function updateThemeIcon(theme) {
+    if (theme === 'dark') {
+        themeToggle.textContent = 'light_mode';
+    } else {
+        themeToggle.textContent = 'dark_mode';
+    }
+}
+
+function toggleTheme() {
+    if (htmlElement.classList.contains('dark')) {
+        htmlElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        updateThemeIcon('light');
+    } else {
+        htmlElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        updateThemeIcon('dark');
+    }
+}
+
+themeToggle.addEventListener('click', toggleTheme);
+
+// Navigation active state management
+function setActiveNav(navId) {
+    document.querySelectorAll('.desktop-nav-item').forEach(item => {
+        if (item.dataset.nav === navId) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+    
+    document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        const mobileNavId = item.dataset.mobileNav;
+        if (mobileNavId === navId) {
+            item.classList.add('bg-primary/10', 'text-primary', 'border', 'border-primary/30');
+            item.classList.remove('text-slate-400');
+        } else {
+            item.classList.remove('bg-primary/10', 'text-primary', 'border', 'border-primary/30');
+            item.classList.add('text-slate-400');
+        }
+    });
+}
+
+document.querySelectorAll('.desktop-nav-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        setActiveNav(item.dataset.nav);
+    });
+});
+
+document.querySelectorAll('.bottom-nav-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveNav(item.dataset.mobileNav);
+    });
+});
+</script>
+</body>
+</html>
