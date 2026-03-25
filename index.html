@@ -15,8 +15,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="img/logo.png"/>
-    <title>Cute Diams - Recharge Free Fire Officielle</title>      
+    <link rel="icon" type="image/png" href="img/logo.png" />
+    <title>Cute Diams - Recharge Free Fire Officielle</title>
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -141,6 +141,22 @@
         visibility: visible;
       }
 
+      /* History Sidebar */
+      .history-sidebar {
+        position: fixed;
+        top: 0;
+        left: -450px;
+        width: 450px;
+        max-width: 90vw;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        box-shadow: 5px 0 30px rgba(0, 0, 0, 0.3);
+      }
+      .history-sidebar.open {
+        left: 0;
+      }
+
       /* Desktop Navigation Bar */
       .desktop-nav-bar {
         display: none;
@@ -257,6 +273,10 @@
         background: rgba(255, 255, 255, 0.95);
         border-color: #fee2e2;
       }
+      html:not(.dark) .history-sidebar,
+      html:not(.dark) .cart-sidebar {
+        background-color: #fef7f0;
+      }
 
       html.dark body {
         background-color: #1a1a2e;
@@ -342,7 +362,6 @@
         font-weight: bold;
       }
 
-      /* Top right add button */
       .add-btn-top-right {
         position: absolute;
         top: 12px;
@@ -393,11 +412,13 @@
   <body class="bg-background text-on-background font-body theme-transition">
     <!-- Cart Overlay -->
     <div id="cartOverlay" class="cart-overlay"></div>
+    <!-- History Overlay -->
+    <div id="historyOverlay" class="cart-overlay"></div>
 
     <!-- Cart Sidebar -->
     <div
       id="cartSidebar"
-      class="cart-sidebar bg-surface-container-high rounded-l-3xl shadow-2xl"
+      class="cart-sidebar bg-surface-container-high rounded-r-3xl shadow-2xl"
     >
       <div class="flex flex-col h-full">
         <div
@@ -413,8 +434,6 @@
             close
           </button>
         </div>
-
-        <!-- Player Info Section -->
         <div class="p-4 border-b border-primary/20 bg-primary/5">
           <h3 class="font-bold text-sm mb-3 text-primary">
             Informations du joueur
@@ -423,8 +442,7 @@
             <div>
               <label class="text-xs text-on-surface-variant block mb-1"
                 >ID Joueur *</label
-              >
-              <input
+              ><input
                 type="text"
                 id="playerId"
                 placeholder="Ex: 123456789"
@@ -434,8 +452,7 @@
             <div>
               <label class="text-xs text-on-surface-variant block mb-1"
                 >Pseudo Joueur *</label
-              >
-              <input
+              ><input
                 type="text"
                 id="playerName"
                 placeholder="Votre pseudo"
@@ -444,7 +461,6 @@
             </div>
           </div>
         </div>
-
         <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3">
           <div class="text-center text-on-surface-variant py-8">
             Votre panier est vide
@@ -452,8 +468,8 @@
         </div>
         <div class="border-t border-primary/20 p-5">
           <div class="flex justify-between mb-4">
-            <span class="font-bold">Total:</span>
-            <span id="cartTotal" class="font-bold text-primary text-lg"
+            <span class="font-bold">Total:</span
+            ><span id="cartTotal" class="font-bold text-primary text-lg"
               >0 Ar</span
             >
           </div>
@@ -467,12 +483,47 @@
       </div>
     </div>
 
+    <!-- History Sidebar -->
+    <div
+      id="historySidebar"
+      class="history-sidebar bg-surface-container-high rounded-l-3xl shadow-2xl"
+    >
+      <div class="flex flex-col h-full">
+        <div
+          class="flex justify-between items-center p-5 border-b border-primary/20"
+        >
+          <h2 class="font-headline font-bold text-xl text-primary">
+            📜 Historique des commandes
+          </h2>
+          <button
+            id="closeHistory"
+            class="material-symbols-outlined text-on-surface-variant hover:text-primary"
+          >
+            close
+          </button>
+        </div>
+        <div id="historyList" class="flex-1 overflow-y-auto p-4 space-y-3">
+          <div class="text-center text-on-surface-variant py-8">
+            Aucune commande pour le moment
+          </div>
+        </div>
+        <div class="border-t border-primary/20 p-5">
+          <button
+            id="clearHistoryBtn"
+            class="w-full py-2.5 bg-primary/20 hover:bg-primary/30 text-primary rounded-full font-bold uppercase tracking-widest transition-all"
+          >
+            Effacer l'historique
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Top Navigation Bar -->
     <nav
       class="fixed top-0 left-0 right-0 z-50 bg-[#0c0e17] shadow-[0_0_20px_rgba(255,159,159,0.15)] flex justify-between items-center px-4 sm:px-6 py-4 transition-all"
     >
       <div class="flex items-center gap-2 sm:gap-4">
-        <img src="img/logo.png"   alt="Logo" class="w-10">
+        <img src="img/logo.png" alt="Logo" class="w-10" />
         <span
           class="text-xl sm:text-2xl font-black italic tracking-tighter text-primary uppercase font-headline whitespace-nowrap"
           >CUTE DIAMS</span
@@ -578,7 +629,7 @@
         </button>
       </section>
 
-      <!-- Category: Recharge -->
+      <!-- Category: Recharge (products same as before) -->
       <div id="categoryRecharge" class="category-content active-category">
         <section
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-5"
@@ -1039,76 +1090,108 @@
 
     <script>
       let cart = [];
+      let orderHistory = JSON.parse(
+        localStorage.getItem("orderHistory") || "[]",
+      );
 
+      function saveHistory() {
+        localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+      }
+
+      function updateHistoryDisplay() {
+        const historyList = document.getElementById("historyList");
+        if (orderHistory.length === 0) {
+          historyList.innerHTML =
+            '<div class="text-center text-on-surface-variant py-8">📭 Aucune commande pour le moment</div>';
+          return;
+        }
+        historyList.innerHTML = orderHistory
+          .map((order, index) => {
+            const date = new Date(order.date);
+            return `
+      <div class="bg-primary/5 rounded-xl p-4 border border-primary/20">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-xs text-primary font-bold">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</span>
+          <button class="delete-order text-on-surface-variant hover:text-error text-sm" data-index="${index}">🗑️</button>
+        </div>
+        <div class="text-sm font-bold text-primary">👤 ${order.playerName} (${order.playerId})</div>
+        <div class="text-xs text-on-surface-variant mt-2">📦 ${order.items.map((i) => `${i.name} x${i.quantity}`).join(", ")}</div>
+        <div class="text-right font-bold text-primary mt-2">💰 ${order.total.toLocaleString()} Ar</div>
+      </div>
+    `;
+          })
+          .join("");
+
+        document.querySelectorAll(".delete-order").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const index = parseInt(btn.dataset.index);
+            orderHistory.splice(index, 1);
+            saveHistory();
+            updateHistoryDisplay();
+          });
+        });
+      }
+
+      function addToHistory(orderData) {
+        orderHistory.unshift(orderData);
+        saveHistory();
+        updateHistoryDisplay();
+      }
+
+      function clearHistory() {
+        if (
+          confirm(
+            "Voulez-vous vraiment effacer tout l'historique des commandes ?",
+          )
+        ) {
+          orderHistory = [];
+          saveHistory();
+          updateHistoryDisplay();
+        }
+      }
+
+      // Update cart display function
       function updateCartDisplay() {
         const cartItemsDiv = document.getElementById("cartItems");
         const cartTotalSpan = document.getElementById("cartTotal");
-
         if (cart.length === 0) {
           cartItemsDiv.innerHTML =
             '<div class="text-center text-on-surface-variant py-8">Votre panier est vide</div>';
           cartTotalSpan.textContent = "0 Ar";
           return;
         }
-
         let total = 0;
         cartItemsDiv.innerHTML = cart
           .map((item, index) => {
             total += item.price * item.quantity;
-            return `
-      <div class="flex flex-col gap-2 p-3 bg-primary/5 rounded-xl">
-        <div class="flex justify-between items-start">
-          <div class="flex-1">
-            <p class="font-bold text-sm">${item.name}</p>
-            <p class="text-primary text-xs font-semibold">${(item.price * item.quantity).toLocaleString()} Ar</p>
-          </div>
-          <button class="remove-item material-symbols-outlined text-on-surface-variant hover:text-error text-lg" data-index="${index}">delete</button>
-        </div>
-        <div class="flex items-center gap-3 mt-2">
-          <span class="text-xs text-on-surface-variant">Quantité:</span>
-          <div class="flex items-center gap-2">
-            <button class="qty-decr w-7 h-7 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all" data-index="${index}">-</button>
-            <span class="quantity-display w-10 text-center font-medium">${item.quantity}</span>
-            <button class="qty-incr w-7 h-7 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all" data-index="${index}">+</button>
-          </div>
-        </div>
-      </div>
-    `;
+            return `<div class="flex flex-col gap-2 p-3 bg-primary/5 rounded-xl"><div class="flex justify-between items-start"><div class="flex-1"><p class="font-bold text-sm">${item.name}</p><p class="text-primary text-xs font-semibold">${(item.price * item.quantity).toLocaleString()} Ar</p></div><button class="remove-item material-symbols-outlined text-on-surface-variant hover:text-error text-lg" data-index="${index}">delete</button></div><div class="flex items-center gap-3 mt-2"><span class="text-xs text-on-surface-variant">Quantité:</span><div class="flex items-center gap-2"><button class="qty-decr w-7 h-7 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all" data-index="${index}">-</button><span class="quantity-display w-10 text-center font-medium">${item.quantity}</span><button class="qty-incr w-7 h-7 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all" data-index="${index}">+</button></div></div></div>`;
           })
           .join("");
-
         cartTotalSpan.textContent = total.toLocaleString() + " Ar";
-
-        document.querySelectorAll(".qty-decr").forEach((btn) => {
+        document.querySelectorAll(".qty-decr").forEach((btn) =>
           btn.addEventListener("click", (e) => {
-            const index = parseInt(btn.dataset.index);
-            if (cart[index].quantity > 1) {
-              cart[index].quantity--;
-            } else {
-              cart.splice(index, 1);
-            }
+            const idx = parseInt(btn.dataset.index);
+            if (cart[idx].quantity > 1) cart[idx].quantity--;
+            else cart.splice(idx, 1);
             updateCartDisplay();
             updateCartBadge();
-          });
-        });
-
-        document.querySelectorAll(".qty-incr").forEach((btn) => {
+          }),
+        );
+        document.querySelectorAll(".qty-incr").forEach((btn) =>
           btn.addEventListener("click", (e) => {
-            const index = parseInt(btn.dataset.index);
-            cart[index].quantity++;
+            const idx = parseInt(btn.dataset.index);
+            cart[idx].quantity++;
             updateCartDisplay();
             updateCartBadge();
-          });
-        });
-
-        document.querySelectorAll(".remove-item").forEach((btn) => {
+          }),
+        );
+        document.querySelectorAll(".remove-item").forEach((btn) =>
           btn.addEventListener("click", (e) => {
-            const index = parseInt(btn.dataset.index);
-            cart.splice(index, 1);
+            cart.splice(parseInt(btn.dataset.index), 1);
             updateCartDisplay();
             updateCartBadge();
-          });
-        });
+          }),
+        );
       }
 
       function updateCartBadge() {
@@ -1120,47 +1203,38 @@
           const badge = document.createElement("span");
           badge.className = "cart-badge";
           badge.textContent = totalItems;
-          cartButton.style.position = "relative";
           cartButton.appendChild(badge);
         }
       }
 
       function addToCart(product) {
         const existingItem = cart.find((item) => item.id === product.id);
-        if (existingItem) {
-          existingItem.quantity++;
-        } else {
-          cart.push({ ...product, quantity: 1 });
-        }
+        if (existingItem) existingItem.quantity++;
+        else cart.push({ ...product, quantity: 1 });
         updateCartDisplay();
         updateCartBadge();
       }
 
-      document.querySelectorAll(".add-btn-top-right").forEach((btn) => {
+      document.querySelectorAll(".add-btn-top-right").forEach((btn) =>
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           const card = btn.closest("[data-name]");
-          if (card) {
-            const product = {
+          if (card)
+            addToCart({
               name: card.dataset.name,
               price: parseInt(card.dataset.price),
               id: card.dataset.id,
-            };
-            addToCart(product);
-            btn.style.transform = "scale(1.1)";
-            setTimeout(() => {
-              btn.style.transform = "";
-            }, 200);
-          }
-        });
-      });
+            });
+          btn.style.transform = "scale(1.1)";
+          setTimeout(() => (btn.style.transform = ""), 200);
+        }),
+      );
 
-      // Cart sidebar toggle
-      const cartButton = document.getElementById("cartButton");
-      const cartSidebar = document.getElementById("cartSidebar");
-      const cartOverlay = document.getElementById("cartOverlay");
-      const closeCart = document.getElementById("closeCart");
-
+      // Sidebar toggles
+      const cartButton = document.getElementById("cartButton"),
+        cartSidebar = document.getElementById("cartSidebar"),
+        cartOverlay = document.getElementById("cartOverlay"),
+        closeCart = document.getElementById("closeCart");
       function openCart() {
         cartSidebar.classList.add("open");
         cartOverlay.classList.add("open");
@@ -1173,14 +1247,38 @@
       closeCart.addEventListener("click", closeCartFunc);
       cartOverlay.addEventListener("click", closeCartFunc);
 
-      // WhatsApp phone number
-      const WHATSAPP_NUMBER = "0347375683";
+      // History sidebar
+      const historyNavItems = document.querySelectorAll(
+        '[data-nav="history"], [data-mobile-nav="history"]',
+      );
+      const historySidebar = document.getElementById("historySidebar");
+      const historyOverlay = document.getElementById("historyOverlay");
+      const closeHistory = document.getElementById("closeHistory");
+      function openHistory() {
+        historySidebar.classList.add("open");
+        historyOverlay.classList.add("open");
+      }
+      function closeHistoryFunc() {
+        historySidebar.classList.remove("open");
+        historyOverlay.classList.remove("open");
+      }
+      historyNavItems.forEach((item) =>
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+          openHistory();
+        }),
+      );
+      closeHistory.addEventListener("click", closeHistoryFunc);
+      historyOverlay.addEventListener("click", closeHistoryFunc);
+      document
+        .getElementById("clearHistoryBtn")
+        .addEventListener("click", clearHistory);
 
-      // Checkout button - Send order to WhatsApp
+      // WhatsApp
+      const WHATSAPP_NUMBER = "0347375683";
       document.getElementById("checkoutBtn").addEventListener("click", () => {
         const playerId = document.getElementById("playerId").value.trim();
         const playerName = document.getElementById("playerName").value.trim();
-
         if (cart.length === 0) {
           alert("❌ Votre panier est vide");
           return;
@@ -1193,121 +1291,95 @@
           alert("❌ Veuillez entrer votre Pseudo");
           return;
         }
-
-        // Calculate total
         const total = cart.reduce(
           (sum, item) => sum + item.price * item.quantity,
           0,
         );
-
-        // Build WhatsApp message
-        let message = "🛍️ *NOUVELLE COMMANDE* 🛍️\n\n";
-        message += "━━━━━━━━━━━━━━━━━━━━\n";
-        message += "*👤 INFORMATIONS JOUEUR*\n";
-        message += `📌 ID Joueur : ${playerId}\n`;
-        message += `🎮 Pseudo : ${playerName}\n`;
-        message += "━━━━━━━━━━━━━━━━━━━━\n";
-        message += "*📦 DÉTAIL DE LA COMMANDE*\n";
-
-        cart.forEach((item, index) => {
-          message += `${index + 1}. ${item.name}\n`;
-          message += `   Quantité: ${item.quantity} x ${item.price.toLocaleString()} Ar\n`;
-          message += `   Sous-total: ${(item.price * item.quantity).toLocaleString()} Ar\n\n`;
+        let message =
+          "🛍️ *NOUVELLE COMMANDE* 🛍️\n\n━━━━━━━━━━━━━━━━━━━━\n*👤 INFORMATIONS JOUEUR*\n📌 ID Joueur : " +
+          playerId +
+          "\n🎮 Pseudo : " +
+          playerName +
+          "\n━━━━━━━━━━━━━━━━━━━━\n*📦 DÉTAIL DE LA COMMANDE*\n";
+        cart.forEach((item, idx) => {
+          message += `${idx + 1}. ${item.name}\n   Quantité: ${item.quantity} x ${item.price.toLocaleString()} Ar\n   Sous-total: ${(item.price * item.quantity).toLocaleString()} Ar\n\n`;
         });
-
-        message += "━━━━━━━━━━━━━━━━━━━━\n";
-        message += `💰 *TOTAL: ${total.toLocaleString()} Ar*\n`;
-        message += "━━━━━━━━━━━━━━━━━━━━\n";
-        message += "\n✅ *Merci pour votre commande !*\n";
-        message += "⏳ En attente de confirmation.";
-
-        // Encode message for URL
-        const encodedMessage = encodeURIComponent(message);
-
-        // Create WhatsApp URL
-        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
-        // Open WhatsApp in new tab
-        window.open(whatsappUrl, "_blank");
-
-        // Clear cart after order
+        message +=
+          "━━━━━━━━━━━━━━━━━━━━\n💰 *TOTAL: " +
+          total.toLocaleString() +
+          " Ar*\n━━━━━━━━━━━━━━━━━━━━\n\n✅ *Merci pour votre commande !*";
+        window.open(
+          `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+          "_blank",
+        );
+        addToHistory({
+          playerId,
+          playerName,
+          items: [...cart],
+          total,
+          date: new Date().toISOString(),
+        });
         cart = [];
         updateCartDisplay();
         updateCartBadge();
         closeCartFunc();
-
-        // Show success message
-        setTimeout(() => {
-          alert(
-            "✅ Commande envoyée avec succès !\nVous allez être redirigé vers WhatsApp pour confirmer votre commande.",
-          );
-        }, 500);
+        setTimeout(
+          () =>
+            alert("✅ Commande envoyée avec succès !\nHistorique sauvegardé."),
+          500,
+        );
       });
 
-      // Theme toggle functionality
+      // Theme toggle
       const themeToggle = document.getElementById("themeToggle");
       const htmlElement = document.documentElement;
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        htmlElement.className = savedTheme;
-        updateThemeIcon(savedTheme);
-      } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+      if (savedTheme) htmlElement.className = savedTheme;
+      else if (window.matchMedia("(prefers-color-scheme: light)").matches)
         htmlElement.className = "";
-        updateThemeIcon("light");
-      } else {
-        htmlElement.className = "dark";
-        updateThemeIcon("dark");
+      else htmlElement.className = "dark";
+      function updateThemeIcon() {
+        themeToggle.textContent = htmlElement.classList.contains("dark")
+          ? "light_mode"
+          : "dark_mode";
       }
-
-      function updateThemeIcon(theme) {
-        themeToggle.textContent = theme === "dark" ? "light_mode" : "dark_mode";
-      }
-      function toggleTheme() {
-        if (htmlElement.classList.contains("dark")) {
+      updateThemeIcon();
+      themeToggle.addEventListener("click", () => {
+        if (htmlElement.classList.contains("dark"))
           htmlElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-          updateThemeIcon("light");
-        } else {
-          htmlElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-          updateThemeIcon("dark");
-        }
-      }
-      themeToggle.addEventListener("click", toggleTheme);
+        else htmlElement.classList.add("dark");
+        localStorage.setItem(
+          "theme",
+          htmlElement.classList.contains("dark") ? "dark" : "light",
+        );
+        updateThemeIcon();
+      });
 
       // Category switching
       const btnRecharge = document.getElementById("btnRecharge"),
         btnAbonnement = document.getElementById("btnAbonnement"),
         btnLargage = document.getElementById("btnLargage"),
         btnLevelUp = document.getElementById("btnLevelUp");
-      const categoryRecharge = document.getElementById("categoryRecharge"),
-        categoryAbonnement = document.getElementById("categoryAbonnement"),
-        categoryLargage = document.getElementById("categoryLargage"),
-        categoryLevelUp = document.getElementById("categoryLevelUp");
-
-      function switchCategory(category) {
-        categoryRecharge.classList.remove("active-category");
-        categoryAbonnement.classList.remove("active-category");
-        categoryLargage.classList.remove("active-category");
-        categoryLevelUp.classList.remove("active-category");
-        if (category === "recharge")
-          categoryRecharge.classList.add("active-category");
-        else if (category === "abonnement")
-          categoryAbonnement.classList.add("active-category");
-        else if (category === "largage")
-          categoryLargage.classList.add("active-category");
-        else if (category === "levelup")
-          categoryLevelUp.classList.add("active-category");
-
-        const buttons = [btnRecharge, btnAbonnement, btnLargage, btnLevelUp];
-        buttons.forEach((btn) => {
+      const catRecharge = document.getElementById("categoryRecharge"),
+        catAbonnement = document.getElementById("categoryAbonnement"),
+        catLargage = document.getElementById("categoryLargage"),
+        catLevelUp = document.getElementById("categoryLevelUp");
+      function switchCategory(cat) {
+        [catRecharge, catAbonnement, catLargage, catLevelUp].forEach((c) =>
+          c.classList.remove("active-category"),
+        );
+        if (cat === "recharge") catRecharge.classList.add("active-category");
+        else if (cat === "abonnement")
+          catAbonnement.classList.add("active-category");
+        else if (cat === "largage") catLargage.classList.add("active-category");
+        else if (cat === "levelup") catLevelUp.classList.add("active-category");
+        [btnRecharge, btnAbonnement, btnLargage, btnLevelUp].forEach((btn) => {
           btn.classList.remove(
             "bg-gradient-to-r",
             "from-primary",
             "to-primary-light",
             "text-white",
             "shadow-lg",
-            "shadow-primary/30",
           );
           btn.classList.add(
             "bg-surface-container-high",
@@ -1316,21 +1388,21 @@
             "border-primary/20",
           );
         });
-        let activeBtn =
-          category === "recharge"
+        let active =
+          cat === "recharge"
             ? btnRecharge
-            : category === "abonnement"
+            : cat === "abonnement"
               ? btnAbonnement
-              : category === "largage"
+              : cat === "largage"
                 ? btnLargage
                 : btnLevelUp;
-        activeBtn.classList.remove(
+        active.classList.remove(
           "bg-surface-container-high",
           "text-on-surface-variant",
           "border",
           "border-primary/20",
         );
-        activeBtn.classList.add(
+        active.classList.add(
           "bg-gradient-to-r",
           "from-primary",
           "to-primary-light",
@@ -1373,17 +1445,19 @@
           }
         });
       }
-      document.querySelectorAll(".desktop-nav-item").forEach((item) => {
-        item.addEventListener("click", (e) => {
-          setActiveNav(item.dataset.nav);
-        });
-      });
-      document.querySelectorAll(".bottom-nav-item").forEach((item) => {
+      document
+        .querySelectorAll(".desktop-nav-item")
+        .forEach((item) =>
+          item.addEventListener("click", () => setActiveNav(item.dataset.nav)),
+        );
+      document.querySelectorAll(".bottom-nav-item").forEach((item) =>
         item.addEventListener("click", (e) => {
           e.preventDefault();
           setActiveNav(item.dataset.mobileNav);
-        });
-      });
+        }),
+      );
+
+      updateHistoryDisplay();
     </script>
   </body>
 </html>
